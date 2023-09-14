@@ -1,5 +1,12 @@
 {
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
     "remoteUser": "root",
-    "postCreateCommand": ".devcontainer/install-wordpress.sh"
+	"postCreateCommand": ".devcontainer/install-wordpress.sh",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"GitHub.copilot"
+			]
+		}
+	}
 }

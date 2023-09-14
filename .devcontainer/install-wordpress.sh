@@ -2,14 +2,16 @@
 
 # https://ubuntu.com/tutorials/install-and-configure-wordpress
 
+DEBIAN_FRONTEND="noninteractive"
+
 # Check running as root
 if [ $(id -u) -ne 0 ]
   then echo "Please run as root"
   exit 1
 fi
 
-apt update
-apt install apache2 \
+apt update -y
+apt install -y apache2 \
                  ghostscript \
                  libapache2-mod-php \
                  mysql-server \
@@ -27,6 +29,9 @@ apt install apache2 \
 sudo mkdir -p /srv/www
 sudo chown www-data: /srv/www
 curl https://wordpress.org/latest.tar.gz | sudo -u www-data tar zx -C /srv/www
+
+# Start mysql
+service mysql start
 
 # Create wordpress.conf
 cat <<EOF > /etc/apache2/sites-available/wordpress.conf
@@ -48,9 +53,9 @@ EOF
 a2ensite wordpress
 a2enmod rewrite
 
-# a2dissite 000-default
-
+a2dissite 000-default
 service apache2 reload
+service apache2 restart
 
 # Create database
 mysql -u root -e "CREATE DATABASE wordpress;"
